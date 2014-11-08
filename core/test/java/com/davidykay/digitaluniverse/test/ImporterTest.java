@@ -56,23 +56,23 @@ public class ImporterTest {
           assertThat(numberLine, equalTo("-2.2931 -22.3478 108.2944 1 360.6 1"));
   }
 
-  // @Test
-  // public void shouldImportLines() throws Exception {
-  //         Importer importer = new Importer();
+  @Test
+  public void shouldImportLines() throws Exception {
+          Importer importer = new Importer();
 
-  //         Optional<SpeckLine> emptyLine = importer.importLine("# DIGITAL UNIVERSE ATLAS");
-  //         assertThat(emptyLine.isPresent(), equalTo(false));
+          Optional<SpeckLine> emptyLine = importer.importLine("# DIGITAL UNIVERSE ATLAS");
+          assertThat(emptyLine.isPresent(), equalTo(false));
 
-  //         Optional<SpeckLine> configLine = importer.importLine("datavar 0 numplanets");
-  //         assertThat(configLine.isPresent(), equalTo(true));
-  //         //assertThat(configLine.get().getClass(), equalTo(ConfigLine.class));
+          Optional<SpeckLine> configLine = importer.importLine("datavar 0 numplanets");
+          assertThat(configLine.isPresent(), equalTo(true));
+          //assertThat(configLine.get().getClass(), equalTo(ConfigLine.class));
 
-  //         Optional<SpeckLine> dataLine = importer.importLine("-2.2931 -22.3478 108.2944 1 360.6 1 # 11 Com");
-  //         assertThat(dataLine.isPresent(), equalTo(true));
-  //         DataLine dataLineObj = (DataLine) dataLine.get();
-  //         assertThat(dataLineObj.getFloat(0), equalTo(-2.2931f));
-  //         //assertThat(dataLine.get().getClass(), equalTo(DataLine.class));
-  // }
+          Optional<SpeckLine> dataLine = importer.importLine("-2.2931 -22.3478 108.2944 1 360.6 1 # 11 Com");
+          assertThat(dataLine.isPresent(), equalTo(true));
+          DataLine dataLineObj = (DataLine) dataLine.get();
+          assertThat(dataLineObj.getFloat(0), equalTo(-2.2931f));
+          //assertThat(dataLine.get().getClass(), equalTo(DataLine.class));
+  }
 
   @Test
   public void shouldImportStars() throws Exception {
