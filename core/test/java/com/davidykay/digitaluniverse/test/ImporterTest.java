@@ -75,7 +75,7 @@ public class ImporterTest {
   }
 
   @Test
-  public void shouldImportStars() throws Exception {
+  public void shouldImportStarsSimpleFile() throws Exception {
           Importer importer = new Importer();
 
           String path = "/home/dk/workspace/hacktheuniverse/example/libgdx-demo-invaders/android/assets/stars/simple.speck";
@@ -101,6 +101,40 @@ public class ImporterTest {
           assertThat(star3.getXPos(), equalTo(-20.1427f));
           assertThat(star3.getYPos(), equalTo(68.3916f));
           assertThat(star3.getZPos(), equalTo(-27.4397f));
+  }
+
+  @Test
+  public void shouldImportStarsExplFile() throws Exception {
+          Importer importer = new Importer();
+
+          String path = "/home/dk/workspace/hacktheuniverse/example/libgdx-demo-invaders/android/assets/stars/expl.speck";
+          String dataString = Files.toString(new File(path), Charsets.UTF_8);
+
+          List<Star> stars = importer.importComplexString(dataString);
+
+          assertThat(stars.size(), equalTo(551));
+
+          Star star1 = stars.get(0);
+
+          assertThat(star1.getXPos(), equalTo(-2.2931f));
+          assertThat(star1.getYPos(), equalTo(-22.3478f));
+          assertThat(star1.getZPos(), equalTo(108.2944f));
+
+          Star star2 = stars.get(1);
+
+          assertThat(star2.getXPos(), equalTo(-28.9180f));
+          assertThat(star2.getYPos(), equalTo(85.3411f));
+          assertThat(star2.getZPos(), equalTo(78.4522f));
+
+          Star star3 = stars.get(2);
+          assertThat(star3.getXPos(), equalTo(-20.1427f));
+          assertThat(star3.getYPos(), equalTo(68.3916f));
+          assertThat(star3.getZPos(), equalTo(-27.4397f));
+
+          Star star551 = stars.get(550);
+          assertThat(star551.getXPos(), equalTo(-227.3245f));
+          assertThat(star551.getYPos(), equalTo(-2.4818f));
+          assertThat(star551.getZPos(), equalTo(115.5094f));
   }
 
 }

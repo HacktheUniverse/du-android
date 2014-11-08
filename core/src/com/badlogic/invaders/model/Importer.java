@@ -34,6 +34,32 @@ public class Importer {
                 }
         }
 
+        public List<Star> importComplexString(String dataString) {
+                String[] lines = splitLines(dataString);
+
+                ArrayList<Star> stars = new ArrayList<Star>();
+
+                for (String lineString : lines) {
+                        Optional<SpeckLine> speckLine = importLine(lineString);
+                        if (speckLine.isPresent()
+                                        && speckLine.get() instanceof DataLine
+                                        ) {
+                                DataLine dataLine = (DataLine) speckLine.get();
+                                stars.add(dataLineToSimpleStar(dataLine));
+                                // TODO: restore me
+                                // skipped for now
+                        } else {
+                                // we don't care about config right now.
+                                //Gdx.app.debug("MyTag", "line was config, not data.");
+                                //System.out.println("MyTag", "line was config, not data.");
+                                //System.out.println("line was config, not data.");
+                                //throw new RuntimeException("didn't recognize config line");
+                        }
+                }
+
+                return stars;
+        }
+
         public List<Star> importSimpleString(String dataString) {
                 String[] lines = splitLines(dataString);
 
@@ -42,22 +68,6 @@ public class Importer {
                 for (String lineString : lines) {
                         DataLine dataLine = parseDataLine(lineString);
                         stars.add(dataLineToSimpleStar(dataLine));
-
-                        // Optional<SpeckLine> speckLine = importLine(lineString);
-                        // if (speckLine.isPresent()
-                        //                 //&& speckLine.get() instanceof DataLine
-                        //                 ) {
-                        //         DataLine dataLine = (DataLine) speckLine.get();
-                        //         stars.add(dataLineToSimpleStar(dataLine));
-                        //         // TODO: restore me
-                        //         // skipped for now
-                        // } else {
-                        //         // we don't care about config right now.
-                        //         //Gdx.app.debug("MyTag", "line was config, not data.");
-                        //         //System.out.println("MyTag", "line was config, not data.");
-                        //         //System.out.println("line was config, not data.");
-                        //         //throw new RuntimeException("didn't recognize config line");
-                        // }
                 }
 
                 return stars;
