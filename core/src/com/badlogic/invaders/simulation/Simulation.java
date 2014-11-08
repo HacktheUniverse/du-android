@@ -1,11 +1,11 @@
 /*
  * Copyright 2010 Mario Zechner (contact@badlogicgames.com), Nathan Sweet (admin@esotericsoftware.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
@@ -239,16 +239,17 @@ public class Simulation implements Disposable {
 				if (tmpV1.dst(tmpV2) < Ship.SHIP_RADIUS) {
 					removedShots.add(shot);
 					shot.hasLeftField = true;
-					ship.lives--;
-					ship.isExploding = true;
-					explosions.add(new Explosion(explosionModel, tmpV1));
-					if (listener != null) listener.explosion();
+					// ship.lives--;
+					// ship.isExploding = true;
+					// explosions.add(new Explosion(explosionModel, tmpV1));
+					// if (listener != null) listener.explosion();
 					break;
 				}
 			}
 
-			for (int i = 0; i < removedShots.size(); i++)
+			for (int i = 0; i < removedShots.size(); i++) {
 				shots.remove(removedShots.get(i));
+			}
 		}
 
 		ship.transform.getTranslation(tmpV2);
