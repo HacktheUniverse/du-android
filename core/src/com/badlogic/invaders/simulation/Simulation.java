@@ -391,14 +391,14 @@ public class Simulation implements Disposable {
     // Average out our values
     averageOrientationValues();
 
-    if (DEBUG) {
-      Gdx.app.log(TAG, String.format("NEW Orientation: %s",
-                                     orientation.toString()));
-      Gdx.app.log(TAG, String.format("AVERAGE Orientation: (%f, %f, %f)",
-                                     mRoll,
-                                     mPitch,
-                                     mAzimuth));
-    }
+    // if (DEBUG) {
+    //   Gdx.app.log(TAG, String.format("NEW Orientation: %s",
+    //                                  orientation.toString()));
+    //   Gdx.app.log(TAG, String.format("AVERAGE Orientation: (%f, %f, %f)",
+    //                                  mRoll,
+    //                                  mPitch,
+    //                                  mAzimuth));
+    // }
   }
 
 	////////////////////////////////////////
