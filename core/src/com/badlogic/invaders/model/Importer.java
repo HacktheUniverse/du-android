@@ -87,7 +87,12 @@ public class Importer {
                 return splited;
         }
 
-        private Optional<SpeckLine> importLine(String lineString) {
+        public String trimLine(String lineString) {
+                String[] parts = lineString.split("#");
+                return parts[0].trim();
+        }
+
+        public Optional<SpeckLine> importLine(String lineString) {
                 String[] parts = splitLine(lineString);
                 String first = parts[0];
 
@@ -98,7 +103,11 @@ public class Importer {
                                 // if it begins with a letter
                                 SpeckLine configLine = parseConfigLine(lineString);
                                 return Optional.of(configLine);
-                        } else if (Character.isDigit(first.charAt(0))){
+                        } else if (
+                                        (Character.isDigit(first.charAt(0))
+                                         || '-' == first.charAt(0))
+                                        && '#' != first.charAt(0)
+                                        ){
                                 // if it begins with a number
                                 SpeckLine dataLine = parseDataLine(lineString);
                                 return Optional.of(dataLine);
