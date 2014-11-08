@@ -77,7 +77,7 @@ public class GameLoop extends InvadersScreen implements SimulationListener {
 
 	@Override
 	public boolean isDone () {
-		return simulation.ship.lives == 0;
+		return false;
 	}
 
 	@Override
@@ -93,40 +93,12 @@ public class GameLoop extends InvadersScreen implements SimulationListener {
 						simulation.rotateLeft(delta, 0.5f);
 		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) || Gdx.input.isKeyPressed(Keys.D))
 						simulation.rotateRight(delta, 0.5f);
-		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE)) simulation.shot();
+		// if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE)) simulation.shot();
 
 		float azimuth = Gdx.input.getAzimuth();
 		float pitch   = Gdx.input.getPitch();
 		float roll    = Gdx.input.getRoll();
-		simulation.updateOrientation(azimuth, pitch, roll);
-
-		// Old orientation code
-		// float accelerometerY = Gdx.input.getAccelerometerY();
-		// if (accelerometerY < 0) {
-		// 	simulation.moveShipLeft(delta, Math.abs(accelerometerY) / 10);
-		// } else {
-		// 	simulation.moveShipRight(delta, Math.abs(accelerometerY) / 10);
-		// }
-
-		// if (invaders.getController() != null) {
-		// 	if (buttonsPressed > 0) {
-		// 		simulation.shot();
-		// 	}
-
-		// 	// if the left stick moved, move the ship
-		// 	float axisValue = invaders.getController().getAxis(Ouya.AXIS_LEFT_X) * 0.5f;
-		// 	if (Math.abs(axisValue) > 0.25f) {
-		// 		if (axisValue > 0) {
-		// 			simulation.moveShipRight(delta, axisValue);
-		// 		} else {
-		// 			simulation.moveShipLeft(delta, -axisValue);
-		// 		}
-		// 	}
-		// }
-
-		// if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) || Gdx.input.isKeyPressed(Keys.A)) simulation.moveShipLeft(delta, 0.5f);
-		// if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) || Gdx.input.isKeyPressed(Keys.D)) simulation.moveShipRight(delta, 0.5f);
-		// if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE)) simulation.shot();
+		simulation.updateOrientation(delta, azimuth, pitch, roll);
 	}
 
 	@Override
@@ -136,6 +108,6 @@ public class GameLoop extends InvadersScreen implements SimulationListener {
 
 	@Override
 	public void shot () {
-		shot.play();
+		// shot.play();
 	}
 }

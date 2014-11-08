@@ -30,6 +30,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.invaders.simulation.Ship;
 import com.badlogic.invaders.simulation.Simulation;
+import com.badlogic.invaders.simulation.CameraOrientation;
 
 /** The renderer receives a simulation and renders it.
  * @author mzechner */
@@ -131,11 +132,13 @@ public class Renderer {
     camera.direction.set(0, 0, 1);
     camera.up.set(0, 1, 0);
 
-    camera.rotate(simulation.getAzimuth() , 0 , 1 , 0);
+    CameraOrientation cameraOrientation = simulation.getCameraOrientation();
+
+    camera.rotate(cameraOrientation.getAzimuth() , 0 , 1 , 0);
     Vector3 pivot = camera.direction.cpy().crs(camera.up);
 
-    camera.rotate(simulation.getPitch(), pivot.x, pivot.y, pivot.z);
-    camera.rotate(simulation.getRoll(), camera.direction.x, camera.direction.y, camera.direction.z);
+    camera.rotate(cameraOrientation.getPitch(), pivot.x, pivot.y, pivot.z);
+    camera.rotate(cameraOrientation.getRoll(), camera.direction.x, camera.direction.y, camera.direction.z);
 
     camera.update();
     //camera.apply(Gdx.gl10);
