@@ -14,6 +14,7 @@
 package com.badlogic.invaders.simulation;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -306,6 +307,9 @@ public class Simulation implements Disposable {
 		}
 	}
 
+	/*****************************************
+	 * Ship Orientation
+	 ****************************************/
 	public void moveShipLeft (float delta, float scale) {
 		if (ship.isExploding) return;
 
@@ -322,6 +326,39 @@ public class Simulation implements Disposable {
 		if (tmpV1.x > PLAYFIELD_MAX_X) ship.transform.trn(PLAYFIELD_MAX_X - tmpV1.x, 0, 0);
 	}
 
+	/*****************************************
+	 * Camera Orientation
+	 ****************************************/
+
+  private LinkedList<Orientation> mOrientations = new LinkedList<Orientation>();
+  private static final int MAX_ORIENTATIONS = 30;
+
+  private float mAzimuth;
+  private float mPitch  ;
+  private float mRoll   ;
+
+	public void rotateLeft(float delta, float distance) {
+	  // TODO: see if we need to compute delta as well
+		mPitch -= distance;
+	}
+
+	public void rotateRight(float delta, float distance) {
+		mPitch += distance;
+	}
+
+	public float getAzimuth() {
+    return mAzimuth;
+  }
+  public float getPitch() {
+    return mPitch;
+  }
+  public float getRoll() {
+    return mRoll;
+  }
+
+	/*****************************************
+	 * Other
+	 ****************************************/
 	public void shot () {
 		if (shipShot == null && !ship.isExploding) {
 			ship.transform.getTranslation(tmpV1);
@@ -339,4 +376,31 @@ public class Simulation implements Disposable {
 		shotModel.dispose();
 		explosionModel.dispose();
 	}
+
+	////////////////////////////////////////
+	// Classes
+	////////////////////////////////////////
+
+  public class Orientation {
+    //public final Vector3 position = new Vector3(0,1.5f,0);
+    /** Angle left or right of the vertical */
+    public float azimuth = 0.0f;
+    /** Angle above or below the horizon */
+    public float pitch = 0.0f;
+    /** Angle about the direction as defined by yaw and pitch */
+    public float roll = 0.0f;
+
+    public Orientation(float azimuth, float pitch, float roll) {
+      this.azimuth = azimuth;
+      this.pitch   = pitch;
+      this.roll    = roll;
+    }
+    public String toString() {
+      return String.format("(%f, %f, %f)",
+                    roll,
+                    pitch,
+                    azimuth);
+    }
+  }
+
 }

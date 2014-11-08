@@ -1,11 +1,11 @@
 /*
  * Copyright 2010 Mario Zechner (contact@badlogicgames.com), Nathan Sweet (admin@esotericsoftware.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
@@ -92,7 +92,9 @@ public class Renderer {
 		renderBackground();
 		gl.glEnable(GL20.GL_DEPTH_TEST);
 		gl.glEnable(GL20.GL_CULL_FACE);
-		setProjectionAndCamera(simulation.ship);
+
+		// setProjectionAndCamera(simulation.ship);
+    setProjectionAndCameraAugmentedReality(simulation);
 
 		modelBatch.begin(camera);
 		modelBatch.render(simulation.explosions);
@@ -133,12 +135,45 @@ public class Renderer {
 
 	final Vector3 dir = new Vector3();
 
+	////////////////////////////////////////
+	// Camera control
+	////////////////////////////////////////
+
+	private void setProjectionAndCameraAugmentedReality(Simulation simulation) {
+
+    //camera.position.set(0, 6, 2);
+    //camera.direction.set(0, 0, -4).sub(camera.position).nor();
+
+    //camera.rotate(simulation.getPitch()   , 1 , 0 , 0);
+    //camera.rotate(simulation.getRoll()    , 0 , 1 , 0);
+    //camera.rotate(simulation.getAzimuth() , 0 , 0 , 1);
+
+    // Note that these are taken from StackOverflow:
+    // http://stackoverflow.com/questions/5274514/how-do-i-use-the-android-compass-orientation-to-aim-an-opengl-camera
+    camera.position.set(0, 1, 2);
+    camera.direction.set(0, 0, 1);
+    camera.up.set(0, 1, 0);
+
+    camera.rotate(simulation.getAzimuth() , 0 , 1 , 0);
+    Vector3 pivot = camera.direction.cpy().crs(camera.up);
+
+    camera.rotate(simulation.getPitch(), pivot.x, pivot.y, pivot.z);
+    camera.rotate(simulation.getRoll(), camera.direction.x, camera.direction.y, camera.direction.z);
+
+    camera.update();
+    //camera.apply(Gdx.gl10);
+  }
+
 	private void setProjectionAndCamera (Ship ship) {
 		ship.transform.getTranslation(tmpV);
 		camera.position.set(tmpV.x, 6, 2);
 		camera.direction.set(tmpV.x, 0, -4).sub(camera.position).nor();
 		camera.update();
 	}
+
+	////////////////////////////////////////
+	// Cleanup
+	////////////////////////////////////////
 
 	public void dispose () {
 		spriteBatch.dispose();
