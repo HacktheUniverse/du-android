@@ -257,9 +257,9 @@ public class Simulation implements Disposable {
 			Invader invader = invaders.get(i);
 			invader.transform.getTranslation(tmpV1);
 			if (tmpV1.dst(tmpV2) < Ship.SHIP_RADIUS) {
-				ship.lives--;
 				invaders.remove(invader);
-				ship.isExploding = true;
+				// ship.lives--;
+				// ship.isExploding = true;
 				explosions.add(new Explosion(explosionModel, tmpV1));
 				explosions.add(new Explosion(explosionModel, tmpV2));
 				if (listener != null) listener.explosion();
