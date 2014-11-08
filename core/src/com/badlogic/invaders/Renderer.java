@@ -97,11 +97,11 @@ public class Renderer {
     setProjectionAndCameraAugmentedReality(simulation);
 
 		modelBatch.begin(camera);
-		modelBatch.render(simulation.explosions);
+		//modelBatch.render(simulation.explosions);
 		// if (!simulation.ship.isExploding) modelBatch.render(simulation.ship, lights);
-		modelBatch.render(simulation.invaders, lights);
-		modelBatch.render(simulation.blocks);
-		modelBatch.render(simulation.shots);
+		//modelBatch.render(simulation.invaders, lights);
+		//modelBatch.render(simulation.blocks);
+		//modelBatch.render(simulation.shots);
 		modelBatch.render(simulation.starModels);
 		modelBatch.end();
 
