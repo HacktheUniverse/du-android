@@ -9,6 +9,36 @@ public class ColorConverter {
 
 				private Random mRandom = new Random();
 
+         public Color bMinusVToColor(float bMinusV) {
+
+								 if (bMinusV >= +1.61) {
+												 return Color.valueOf("ffbd6f");
+								 } else if (bMinusV >= +1.41) {
+												 return Color.valueOf("ffcf95");
+								 } else if (bMinusV >= +1.15) {
+												 return Color.valueOf("ffddb4");
+								 } else if (bMinusV >= +0.82) {
+												 return Color.valueOf("ffead5");
+								 } else if (bMinusV >= +0.66) {
+												 return Color.valueOf("fff0e3");
+								 } else if (bMinusV >= +0.59) {
+												 return Color.valueOf("fff3ea");
+								 } else if (bMinusV >= +0.43) {
+												 return Color.valueOf("fff8f8");
+								 } else if (bMinusV >= +0.31) {
+												 return Color.valueOf("f7f5ff");
+								 } else if (bMinusV >= +0.14) {
+												 return Color.valueOf("e2e7ff");
+								 } else if (bMinusV >= 0.00) {
+												 return Color.valueOf("d1dbff");
+								 } else if (bMinusV >= -0.16) {
+												 return Color.valueOf("bbccff");
+								 //} else if (bMinusV >= -0.30) {
+								 } else {
+												 return Color.valueOf("a7bcff");
+								 }
+				 }
+
 				public int bMinusVToKelvin(float bMinusV) {
 								if (bMinusV > 1.40) {
 												return 3840;

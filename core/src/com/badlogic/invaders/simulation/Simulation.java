@@ -159,9 +159,10 @@ public class Simulation implements Disposable {
                           public StarModel apply(Star star) {
                                   float size = 0.5f;
                                   // Material material = new Material(ColorAttribute.createDiffuse(Color.GREEN));
+                                  //int kelvin = colorConverter.bMinusVToKelvin(star.getBvColor());
+                                  //Color color = colorConverter.kelvinToColor(kelvin);
 
-                                  int kelvin = colorConverter.bMinusVToKelvin(star.getBvColor());
-                                  Color color = colorConverter.kelvinToColor(kelvin);
+                                  Color color = colorConverter.bMinusVToColor(star.getBvColor());
                                   Material material = new Material(ColorAttribute.createDiffuse(color));
 
                                   final Model boxModel = modelBuilder.createBox(size, size, size,
