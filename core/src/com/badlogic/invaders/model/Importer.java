@@ -90,6 +90,8 @@ public class Importer {
         public String trimLine(String lineString) {
                 String[] parts = lineString.split("#");
                 return parts[0].trim();
+
+                //String[] parts = lineString.replaceAll("#.*", "");
         }
 
         public Optional<SpeckLine> importLine(String lineString) {
@@ -124,7 +126,8 @@ public class Importer {
         }
 
         public DataLine parseDataLine(String line) {
-                String[] components = splitLine(line);
+                String[] components = splitLine(
+                                trimLine(line));
 
                 ArrayList<Float> numbers = new ArrayList<Float>();
 
