@@ -36,18 +36,11 @@ import com.badlogic.invaders.simulation.Simulation;
 public class Renderer {
 	/** sprite batch to draw text **/
 	private SpriteBatch spriteBatch;
-	/** the background texture **/
-	private Texture backgroundTexture;
 	/** the font **/
 	private BitmapFont font;
-	/** the rotation angle of all invaders around y **/
-	private float invaderAngle = 0;
-	/** status string **/
+
+  /** status string **/
 	private String status = "";
-	/** keeping track of the last score so we don't constantly construct a new string **/
-	private int lastScore = 0;
-	private int lastLives = 0;
-	private int lastWave = 0;
 
 	/** view and transform matrix for text rendering and transforming 3D objects **/
 	private final Matrix4 viewMatrix = new Matrix4();
@@ -73,8 +66,6 @@ public class Renderer {
 			spriteBatch = new SpriteBatch();
 			modelBatch = new ModelBatch();
 
-			backgroundTexture = new Texture(Gdx.files.internal("data/planet.jpg"), Format.RGB565, true);
-			backgroundTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
 
 			font = new BitmapFont(Gdx.files.internal("data/font10.fnt"), Gdx.files.internal("data/font10.png"), false);
 
@@ -89,19 +80,12 @@ public class Renderer {
 		// interface via Gdx.gl
 		GL20 gl = Gdx.gl;
 		gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		// renderBackground();
 		gl.glEnable(GL20.GL_DEPTH_TEST);
 		gl.glEnable(GL20.GL_CULL_FACE);
 
-		// setProjectionAndCamera(simulation.ship);
     setProjectionAndCameraAugmentedReality(simulation);
 
 		modelBatch.begin(camera);
-		//modelBatch.render(simulation.explosions);
-		// if (!simulation.ship.isExploding) modelBatch.render(simulation.ship, lights);
-		//modelBatch.render(simulation.invaders, lights);
-		//modelBatch.render(simulation.blocks);
-		//modelBatch.render(simulation.shots);
 		modelBatch.render(simulation.starModels);
 		modelBatch.end();
 
@@ -110,29 +94,21 @@ public class Renderer {
 
 		spriteBatch.setProjectionMatrix(viewMatrix);
 		spriteBatch.begin();
-		if (simulation.ship.lives != lastLives || simulation.score != lastScore || simulation.wave != lastWave) {
-			status = "lives: " + simulation.ship.lives + " wave: " + simulation.wave + " score: " + simulation.score;
-			lastLives = simulation.ship.lives;
-			lastScore = simulation.score;
-			lastWave = simulation.wave;
-		}
+
 		spriteBatch.enableBlending();
 		font.draw(spriteBatch, status, 0, 320);
 		spriteBatch.end();
-
-		invaderAngle += delta * 90;
-		if (invaderAngle > 360) invaderAngle -= 360;
 	}
 
-	private void renderBackground () {
-		viewMatrix.setToOrtho2D(0, 0, 400, 320);
-		spriteBatch.setProjectionMatrix(viewMatrix);
-		spriteBatch.begin();
-		spriteBatch.disableBlending();
-		spriteBatch.setColor(Color.WHITE);
-		spriteBatch.draw(backgroundTexture, 0, 0, 480, 320, 0, 0, 512, 512, false, false);
-		spriteBatch.end();
-	}
+	// private void renderBackground () {
+	// 	viewMatrix.setToOrtho2D(0, 0, 400, 320);
+	// 	spriteBatch.setProjectionMatrix(viewMatrix);
+	// 	spriteBatch.begin();
+	// 	spriteBatch.disableBlending();
+	// 	spriteBatch.setColor(Color.WHITE);
+	// 	spriteBatch.draw(backgroundTexture, 0, 0, 480, 320, 0, 0, 512, 512, false, false);
+	// 	spriteBatch.end();
+	// }
 
 	final Vector3 dir = new Vector3();
 
@@ -178,7 +154,6 @@ public class Renderer {
 
 	public void dispose () {
 		spriteBatch.dispose();
-		backgroundTexture.dispose();
 		font.dispose();
 	}
 }
