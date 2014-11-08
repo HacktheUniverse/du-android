@@ -21,13 +21,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Lists;
 import com.google.common.base.Function;
 
-import com.badlogic.invaders.model.Importer;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -39,6 +39,8 @@ import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.invaders.model.ColorConverter;
+import com.badlogic.invaders.model.Importer;
 
 public class Simulation implements Disposable {
         private static final boolean SMOOTH_CAMERA = false;
@@ -128,7 +130,6 @@ public class Simulation implements Disposable {
           Star starB = new Star(-28.9180f, 85.3411f, 78.4522f, 1f, 389.5f);
           Star starC = new Star(-20.1427f, 68.3916f, -27.4397f, 1f, 249.1f);
 
-          // List<Star> stars = Lists.newArrayList(sol, starA, starB, starC);
 
           List<Star> stars = Lists.newArrayList(sol);
 
@@ -150,10 +151,24 @@ public class Simulation implements Disposable {
           String path = "stars/expl.speck";
           List<Star> stars = importer.importComplex(path);
 
+          final ModelBuilder modelBuilder = new ModelBuilder();
+          final ColorConverter colorConverter = new ColorConverter();
+
           Function<Star, StarModel> starToStarModel =
                   new Function<Star, StarModel>() {
                           public StarModel apply(Star star) {
-                                  return StarModel.newInstance(star, starModel);
+                                  float size = 0.5f;
+                                  // Material material = new Material(ColorAttribute.createDiffuse(Color.GREEN));
+
+                                  int kelvin = colorConverter.bMinusVToKelvin(star.getBvColor());
+                                  Color color = colorConverter.kelvinToColor(kelvin);
+                                  Material material = new Material(ColorAttribute.createDiffuse(color));
+
+                                  final Model boxModel = modelBuilder.createBox(size, size, size,
+                                                  material,
+                                                  Usage.Position | Usage.Normal);
+
+                                  return StarModel.newInstance(star, boxModel);
                           }
                   };
 
