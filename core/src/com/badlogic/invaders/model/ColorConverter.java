@@ -1,10 +1,13 @@
 package com.badlogic.invaders.model;
 
 import com.badlogic.gdx.graphics.Color;
+import java.util.Random;
 
 public class ColorConverter {
 
 				private static final float STAR_ALPHA = 1.0f;
+
+				private Random mRandom = new Random();
 
 				public int bMinusVToKelvin(float bMinusV) {
 								if (bMinusV > 1.40) {
@@ -121,10 +124,15 @@ public class ColorConverter {
 												if(b > 255) b = 255;
 								}
 
+								//return new Color(
+																//(float) r,
+																//(float) g,
+																//(float) b,
+																//STAR_ALPHA);
 								return new Color(
-																(float) r,
-																(float) g,
-																(float) b,
+																(float) mRandom.nextFloat(),
+																(float) mRandom.nextFloat(),
+																(float) mRandom.nextFloat(),
 																STAR_ALPHA);
 								//Color(float r, float g, float b, float a)
 				}

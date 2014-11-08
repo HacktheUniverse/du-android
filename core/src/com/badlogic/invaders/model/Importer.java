@@ -88,13 +88,16 @@ public class Importer {
                 float yPos = dataLine.getFloat(1);
                 float zPos = dataLine.getFloat(2);
 
+								final float RED = 1.40f;
+
                 return new Star(
                                 xPos,
                                 yPos,
                                 zPos,
                                 // TODO: actually parse these
                                 randFloat(),
-                                randFloat()
+                                //randFloat()
+                                RED
                         );
         }
 
