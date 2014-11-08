@@ -168,8 +168,8 @@ public class Simulation implements Disposable {
 			blocks.add(new Block(blockModel, -10 + shield * 10 + 1, 0, -2));
 		}
 
+    // dummyStars();
     importStars();
-    dummyStars();
 	}
 
   private void dummyStars() {
@@ -199,7 +199,7 @@ public class Simulation implements Disposable {
   private void importStars() {
           Importer importer = new Importer();
           String path = "stars/expl.speck";
-          List<Star> stars = importer.importComplexString(path);
+          List<Star> stars = importer.importComplex(path);
 
           Function<Star, StarModel> starToStarModel =
                   new Function<Star, StarModel>() {
@@ -210,6 +210,7 @@ public class Simulation implements Disposable {
 
           List<StarModel> starModels = Lists.transform(stars, starToStarModel);
           this.starModels = starModels;
+          System.out.println("Imported stars (not models): " + stars);
           System.out.println("Starmodels: " + starModels);
   }
 
