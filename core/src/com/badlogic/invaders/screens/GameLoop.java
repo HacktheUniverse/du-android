@@ -95,6 +95,11 @@ public class GameLoop extends InvadersScreen implements SimulationListener {
 						simulation.rotateRight(delta, 0.5f);
 		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE)) simulation.shot();
 
+		float azimuth = Gdx.input.getAzimuth();
+		float pitch   = Gdx.input.getPitch();
+		float roll    = Gdx.input.getRoll();
+		simulation.updateOrientation(azimuth, pitch, roll);
+
 		// Old orientation code
 		// float accelerometerY = Gdx.input.getAccelerometerY();
 		// if (accelerometerY < 0) {

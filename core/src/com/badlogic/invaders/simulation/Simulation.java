@@ -63,6 +63,9 @@ public class Simulation implements Disposable {
 	private final Vector3 tmpV1 = new Vector3();
 	private final Vector3 tmpV2 = new Vector3();
 
+	private static final String TAG = "Simulation";
+	private static final boolean DEBUG = true;
+
 	public Simulation () {
 		populate();
 	}
@@ -326,9 +329,9 @@ public class Simulation implements Disposable {
 		if (tmpV1.x > PLAYFIELD_MAX_X) ship.transform.trn(PLAYFIELD_MAX_X - tmpV1.x, 0, 0);
 	}
 
-	/*****************************************
-	 * Camera Orientation
-	 ****************************************/
+	////////////////////////////////////////
+	// Camera Orientation
+	////////////////////////////////////////
 
   private LinkedList<Orientation> mOrientations = new LinkedList<Orientation>();
   private static final int MAX_ORIENTATIONS = 30;
@@ -354,6 +357,87 @@ public class Simulation implements Disposable {
   }
   public float getRoll() {
     return mRoll;
+  }
+
+	private void averageOrientationValues() {
+    float azimuth = 0.0f;
+    float pitch   = 0.0f;
+    float roll    = 0.0f;
+    for (Orientation o : mOrientations) {
+      azimuth += o.azimuth;
+      pitch   += o.pitch;
+      roll    += o.roll;
+    }
+    int count = mOrientations.size();
+    // Average out the values.
+    // We can loop around in yaw/azimuth.
+    mAzimuth = (azimuth / count) % 360;
+    mPitch   = pitch / count;
+    mRoll    = roll / count;
+  }
+
+  /**
+   * Add a given orientation to our queue.
+   */
+  public void addOrientation(Orientation orientation) {
+
+    // Note that these are taken from StackOverflow:
+    // http://stackoverflow.com/questions/5274514/how-do-i-use-the-android-compass-orientation-to-aim-an-opengl-camera
+    mOrientations.offer(orientation);
+    if (mOrientations.size() > MAX_ORIENTATIONS) {
+      mOrientations.remove();
+    }
+    // TODO: Technically we don't care until we retrieve.
+    // Average out our values
+    averageOrientationValues();
+
+    if (DEBUG) {
+      Gdx.app.log(TAG, String.format("NEW Orientation: %s",
+                                     orientation.toString()));
+      Gdx.app.log(TAG, String.format("AVERAGE Orientation: (%f, %f, %f)",
+                                     mRoll,
+                                     mPitch,
+                                     mAzimuth));
+    }
+  }
+
+	////////////////////////////////////////
+	// Accelerometer
+	////////////////////////////////////////
+
+	/**
+   * Take orientation data from the device.
+   */
+  public void updateOrientation(
+      float azimuth ,
+      float pitch   ,
+      float roll
+      ) {
+    // Adjust the raw values coming in.
+    float adjustedRoll = -roll -90;
+    float adjustedPitch = -pitch;
+
+    // Adjust for the freaky coordinate system.
+    float adjustedAzimuth = -azimuth - 180;
+    float delta = mAzimuth - adjustedAzimuth;
+    float invertedDelta = 360 - delta;
+
+    final float INVERSE_TOLERANCE = 180;
+
+    float massagedAzimuth;
+    if (Math.abs(delta) > INVERSE_TOLERANCE) {
+      // If we're way out of wack, let's just use the inversion.
+      massagedAzimuth = mAzimuth + invertedDelta;
+    } else {
+      massagedAzimuth = adjustedAzimuth;
+    }
+
+    // Massaged values
+    Orientation orientation = new Orientation(
+        massagedAzimuth,
+        adjustedRoll,
+        adjustedPitch);
+    addOrientation(orientation);
   }
 
 	/*****************************************
