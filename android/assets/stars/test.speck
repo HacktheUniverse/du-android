@@ -1,0 +1,19 @@
+# DIGITAL UNIVERSE ATLAS
+# American Museum of Natural History and Hayden Planetarium
+# http://www.haydenplanetarium.org/universe/ 
+#
+# Use of these data is subject to the terms of the License.
+#
+# Extrasolar Planets version 7.13
+# Source: The Extrasolar Planets Encyclopaedia, Jean Schneider (CNRS-LUTH, Paris Observatory)
+# Prepared by: Brian Abbott (AMNH/Hayden Planetarium)
+
+datavar 0 numplanets
+datavar 1 distance
+datavar 2 texture
+texturevar 2
+texture 1 target-blue.sgi
+
+-2.2931 -22.3478 108.2944 1 360.6 1 # 11 Com
+-28.9180 85.3411 78.4522 1 389.5 1 # 11 UMi
+-20.1427 68.3916 -27.4397 1 249.1 1 # 14 And
