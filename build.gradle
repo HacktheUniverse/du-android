@@ -95,6 +95,8 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+				compile "com.google.guava:guava:18.0"
+				testCompile "junit:junit:+"
     }
 }
 
