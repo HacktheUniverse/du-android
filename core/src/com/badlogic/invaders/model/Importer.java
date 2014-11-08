@@ -34,6 +34,16 @@ public class Importer {
                 }
         }
 
+        public List<Star> importComplex(String filename) {
+                FileHandle handle = Gdx.files.internal(filename);
+                if (handle.exists()) {
+                        String text = handle.readString();
+                        return importComplexString(text);
+                } else {
+                        throw new RuntimeException("Invalid filename! " + filename);
+                }
+        }
+
         public List<Star> importComplexString(String dataString) {
                 String[] lines = splitLines(dataString);
 

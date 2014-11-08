@@ -39,4 +39,14 @@ public class Star {
 								return bvColor;
 				}
 
+        public String toString() {
+                return String.format("Star at: (%f, %f, %f). Lumosity: %f Color: %f",
+                                xPos,
+                                yPos,
+                                zPos,
+                                lumosity,
+                                bvColor
+                                );
+        }
+
 }

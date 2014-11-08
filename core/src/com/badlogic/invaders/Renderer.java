@@ -98,10 +98,11 @@ public class Renderer {
 
 		modelBatch.begin(camera);
 		modelBatch.render(simulation.explosions);
-		if (!simulation.ship.isExploding) modelBatch.render(simulation.ship, lights);
+		// if (!simulation.ship.isExploding) modelBatch.render(simulation.ship, lights);
 		modelBatch.render(simulation.invaders, lights);
 		modelBatch.render(simulation.blocks);
 		modelBatch.render(simulation.shots);
+		modelBatch.render(simulation.starModels);
 		modelBatch.end();
 
 		gl.glDisable(GL20.GL_CULL_FACE);

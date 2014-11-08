@@ -13,9 +13,15 @@
 
 package com.badlogic.invaders.simulation;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
+import com.google.common.base.Function;
+
+import com.badlogic.invaders.model.Importer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
@@ -43,6 +49,7 @@ public class Simulation implements Disposable {
 	public ArrayList<Invader> invaders = new ArrayList<Invader>();
 	public ArrayList<Block> blocks = new ArrayList<Block>();
 	public ArrayList<Shot> shots = new ArrayList<Shot>();
+	public List<StarModel> starModels = new ArrayList<StarModel>();
 	public ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 	public Ship ship;
 	public Shot shipShot = null;
@@ -55,6 +62,7 @@ public class Simulation implements Disposable {
 	public Model invaderModel;
 	public Model blockModel;
 	public Model shotModel;
+	public Model starModel;
 	public Model explosionModel;
 
 	private ArrayList<Shot> removedShots = new ArrayList<Shot>();
@@ -76,6 +84,7 @@ public class Simulation implements Disposable {
 		invaderModel = objLoader.loadModel(Gdx.files.internal("data/invader.obj"));
 		blockModel = objLoader.loadModel(Gdx.files.internal("data/block.obj"));
 		shotModel = objLoader.loadModel(Gdx.files.internal("data/shot.obj"));
+		starModel = objLoader.loadModel(Gdx.files.internal("data/shot.obj"));
 
 		final Texture shipTexture = new Texture(Gdx.files.internal("data/ship.png"), Format.RGB565, true);
 		shipTexture.setFilter(TextureFilter.MipMap, TextureFilter.Linear);
@@ -158,7 +167,51 @@ public class Simulation implements Disposable {
 			blocks.add(new Block(blockModel, -10 + shield * 10 + 1, 0, -3));
 			blocks.add(new Block(blockModel, -10 + shield * 10 + 1, 0, -2));
 		}
+
+    importStars();
+    dummyStars();
 	}
+
+  private void dummyStars() {
+          Star sol = new Star(0, 0, 0, 1f, 360.6f);
+
+          Star starA = new Star(-2.2931f, -22.3478f, 108.2944f, 1f, 360.6f);
+          Star starB = new Star(-28.9180f, 85.3411f, 78.4522f, 1f, 389.5f);
+          Star starC = new Star(-20.1427f, 68.3916f, -27.4397f, 1f, 249.1f);
+
+          // List<Star> stars = Lists.newArrayList(sol, starA, starB, starC);
+
+          List<Star> stars = Lists.newArrayList(sol);
+
+          Function<Star, StarModel> starToStarModel =
+                  new Function<Star, StarModel>() {
+                          public StarModel apply(Star star) {
+                                  return StarModel.newInstance(star, starModel);
+                          }
+                  };
+
+          List<StarModel> starModels = Lists.transform(stars, starToStarModel);
+          this.starModels = starModels;
+          System.out.println("Starmodels: " + starModels);
+
+  }
+
+  private void importStars() {
+          Importer importer = new Importer();
+          String path = "stars/expl.speck";
+          List<Star> stars = importer.importComplexString(path);
+
+          Function<Star, StarModel> starToStarModel =
+                  new Function<Star, StarModel>() {
+                          public StarModel apply(Star star) {
+                                  return StarModel.newInstance(star, starModel);
+                          }
+                  };
+
+          List<StarModel> starModels = Lists.transform(stars, starToStarModel);
+          this.starModels = starModels;
+          System.out.println("Starmodels: " + starModels);
+  }
 
 	public void update (float delta) {
 		ship.update(delta);
@@ -186,8 +239,9 @@ public class Simulation implements Disposable {
 			if (shot.hasLeftField) removedShots.add(shot);
 		}
 
-		for (int i = 0; i < removedShots.size(); i++)
+		for (int i = 0; i < removedShots.size(); i++) {
 			shots.remove(removedShots.get(i));
+    }
 
 		if (shipShot != null && shipShot.hasLeftField) shipShot = null;
 
