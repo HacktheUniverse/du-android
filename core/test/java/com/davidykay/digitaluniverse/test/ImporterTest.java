@@ -90,6 +90,17 @@ public class ImporterTest {
           assertThat(star1.getXPos(), equalTo(-2.2931f));
           assertThat(star1.getYPos(), equalTo(-22.3478f));
           assertThat(star1.getZPos(), equalTo(108.2944f));
+
+          Star star2 = stars.get(1);
+
+          assertThat(star2.getXPos(), equalTo(-28.9180f));
+          assertThat(star2.getYPos(), equalTo(85.3411f));
+          assertThat(star2.getZPos(), equalTo(78.4522f));
+
+          Star star3 = stars.get(2);
+          assertThat(star3.getXPos(), equalTo(-20.1427f));
+          assertThat(star3.getYPos(), equalTo(68.3916f));
+          assertThat(star3.getZPos(), equalTo(-27.4397f));
   }
 
 }
